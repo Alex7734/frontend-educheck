@@ -15,8 +15,8 @@ import { useSignMessage } from '@/hooks';
 import { SignedMessageStatusesEnum, WidgetProps } from '@/types';
 import { SignFailure, SignSuccess } from './components';
 import CryptoJS from 'crypto-js';
-import { useModal } from '@/wrappers/BatchTransactionsContextProvider/AssesmentProvider';
-import SimpleAssessmentComponent from '@/components/SImpleAssesment/SimpleAssesment';
+import { useModal } from '@/wrappers/ModalProvider';
+import SimpleAssessmentComponent from '@/components/SimpleAssesment/SimpleAssesment';
 
 export const SignMessage = ({ callbackRoute }: WidgetProps) => {
   const { sessionId, signMessage, onAbort } = useSignMessage();
@@ -108,7 +108,6 @@ export const SignMessage = ({ callbackRoute }: WidgetProps) => {
     ? 'inline-block rounded-lg px-6 py-2 text-center hover:no-underline my-0 bg-[#0FB587] text-white hover:bg-[#1FB599] mr-0 disabled:bg-gray-200 disabled:text-black text-sm disabled:cursor-not-allowed'
     : 'inline-block rounded-lg px-6 py-2 text-center hover:no-underline my-0 bg-[#0FB587] text-white hover:bg-[#1FB599] mr-0 disabled:bg-gray-200 disabled:text-black text-sm disabled:cursor-not-allowed';
 
-  console.log(showLoading);
   return (
     <div className='flex flex-col gap-6'>
       <div className='flex gap-2 items-start'>

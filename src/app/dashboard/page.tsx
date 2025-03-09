@@ -7,7 +7,7 @@ import { WidgetType } from '@/types/widget.types';
 import useWeb2AuthService from '@/services/Queries/auth/useWeb2AuthService';
 
 export default function Dashboard() {
-  const { isAdminValidQuery } = useWeb2AuthService();
+  const { isAdminValid } = useWeb2AuthService();
 
   const WIDGETS: WidgetType[] = [
     {
@@ -16,7 +16,7 @@ export default function Dashboard() {
       description: 'Connected account details',
       reference: 'https://docs.multiversx.com/sdk-and-tools/sdk-dapp/#account'
     },
-    ...(!isAdminValidQuery
+    ...(!isAdminValid
       ? [
           {
             title: 'Verify CV',

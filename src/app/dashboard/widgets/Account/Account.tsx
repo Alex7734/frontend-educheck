@@ -5,7 +5,7 @@ import useWeb2AuthService from '@/services/Queries/auth/useWeb2AuthService';
 
 export const Account = () => {
   const crossUser = useGeUser();
-  const { isAdminValidQuery } = useWeb2AuthService();
+  const { isAdminValid } = useWeb2AuthService();
 
   if (!crossUser) {
     return (
@@ -24,7 +24,7 @@ export const Account = () => {
       <Label>Account Type: </Label>
       <span data-testid='accountType'>
         {type === 'web2' ? 'Web2' : 'Web3'}
-        {isAdminValidQuery && <b> Admin</b>}
+        {isAdminValid && <b> Admin</b>}
       </span>
     </p>
   );
@@ -43,7 +43,7 @@ export const Account = () => {
             <Label>Email: </Label>
             <span data-testid='accountEmail'>{userWeb2.email}</span>
           </p>
-          {hasAge && !isAdminValidQuery && (
+          {hasAge && !isAdminValid && (
             <p className='truncate'>
               <Label>Age: </Label>
               <span data-testid='accountAge'>{userWeb2.age}</span>

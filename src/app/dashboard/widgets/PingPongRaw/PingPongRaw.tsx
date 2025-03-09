@@ -13,7 +13,7 @@ import { SessionEnum } from '@/localConstants';
 import { SignedTransactionType, WidgetProps, CypressEnums } from '@/types';
 import { useGetTimeToPong, useGetPingAmount } from './hooks';
 import FileDrop from '@/components/FileDrop/FileDrop';
-import { useModal } from '@/wrappers/BatchTransactionsContextProvider/AssesmentProvider';
+import { useModal } from '@/wrappers/ModalProvider';
 
 // Raw transaction are being done by directly requesting to API instead of calling the smartcontract
 export const PingPongRaw = ({ callbackRoute }: WidgetProps) => {

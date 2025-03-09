@@ -16,7 +16,7 @@ import {
   faDoorOpen
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useModal } from '@/wrappers/BatchTransactionsContextProvider/AssesmentProvider';
+import { useModal } from '@/wrappers/ModalProvider';
 import { useTimerText } from '@/hooks/useTimerText';
 import useGetIsLoggedInAnyWay from '@/hooks/auth/useGetIsLoggedInAnyWay';
 import useAuthStore from '@/store/useAuthStore';
@@ -27,7 +27,7 @@ export const Header = () => {
   const router = useRouter();
   const isLoggedIn = useGetIsLoggedInAnyWay();
   const isWeb2UserLoggedIn = useAuthStore().isAuthenticated();
-  const { signOutMutation, isAdminValidQuery } = useWeb2AuthService();
+  const { signOutMutation, isAdminValid } = useWeb2AuthService();
   const pathname = usePathname();
   const { hideNav } = useModal();
   const formatedText = useTimerText();
@@ -52,7 +52,9 @@ export const Header = () => {
     sessionStorage.clear();
 
     if (isWeb2UserLoggedIn) {
-      return await signOutMutation.mutateAsync();
+      await signOutMutation.mutateAsync();
+      onRedirect();
+      return;
     }
 
     await logout(href, onRedirect, false);
@@ -73,7 +75,7 @@ export const Header = () => {
         <div className='mb-10'>
           <Image src={mvxLogo} alt='logo' width={250} height={60} />
         </div>
-        {isAdminValidQuery && (
+        {isAdminValid && (
           <div className={' pl-4 flex items-center justify-center flex-col'}>
             <div className='flex mr-4 items-center justify-center mb-4 gap-2'>
               <FontAwesomeIcon
@@ -113,7 +115,7 @@ export const Header = () => {
                   <span className='title'>Dashboard</span>
                 </a>
               </li>
-              {!isAdminValidQuery && (
+              {!isAdminValid && (
                 <li className='mb-4'>
                   <a
                     onClick={onCertificationsRedirect}
@@ -131,7 +133,7 @@ export const Header = () => {
                   </a>
                 </li>
               )}
-              {isAdminValidQuery && (
+              {isAdminValid && (
                 <li className={'mb-4'}>
                   <a
                     onClick={() => router.push(RouteNamesEnum.usersDashboard)}

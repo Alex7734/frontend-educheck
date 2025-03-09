@@ -44,7 +44,7 @@ export const useBatchTransactionContext = (): BatchTransactionsContextType => {
 
   if (!context) {
     throw new Error(
-      'useBatchTransactionContext must be used within a BatchTransactionsContextProvider'
+      'useBatchTransactionContext must be used within a ModalProvider'
     );
   }
 

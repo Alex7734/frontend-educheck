@@ -110,7 +110,7 @@ const AuthWeb2: React.FC = () => {
               <p className='text-red-500'>{errorsSignUp.password.message}</p>
             )}
             <input
-              {...registerSignUp('age')}
+              {...registerSignUp('age', { valueAsNumber: true })}
               type='number'
               placeholder='Age'
               className='border p-2'

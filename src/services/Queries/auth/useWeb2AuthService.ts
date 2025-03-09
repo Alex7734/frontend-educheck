@@ -15,7 +15,7 @@ interface IUseWeb2AuthService {
   signUpMutation: UseMutationResult<TResponseAuth, Error, SignUpData, unknown>;
   signInMutation: UseMutationResult<TResponseAuth, Error, SignInData, unknown>;
   signOutMutation: UseMutationResult<void, Error, void, unknown>;
-  isAdminValidQuery: ReturnType<typeof useQuery<boolean, Error>>;
+  isAdminValid: boolean;
 }
 
 interface IUseWeb2AuthServiceOptions {
@@ -53,8 +53,15 @@ const useWeb2AuthService = (
   const signUpMutation = useMutation<TResponseAuth, Error, SignUpData, unknown>(
     {
       mutationFn: async (data: SignUpData) => signUp(data),
-      onSuccess: (response: TResponseAuth) => {
+      onSuccess: async (response: TResponseAuth) => {
         handleSuccess(response);
+
+        // Only normal users should be able to sign up
+        await queryClient.invalidateQueries({
+          queryKey: ['isAdminValid', response.user.id]
+        });
+
+        queryClient.setQueryData(['isAdminValid', response.user.id], false);
       },
       onError: (error: Error) => {
         console.error('Sign up failed:', error);
@@ -119,7 +126,7 @@ const useWeb2AuthService = (
     signUpMutation,
     signInMutation,
     signOutMutation,
-    isAdminValidQuery
+    isAdminValid: isAdminValidQuery.data || false
   };
 };
 

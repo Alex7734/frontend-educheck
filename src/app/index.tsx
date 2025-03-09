@@ -15,12 +15,12 @@ import {
   environment,
   sampleAuthenticatedDomains
 } from '@/config';
-import { BatchTransactionsContextProvider } from '@/wrappers';
 import { AxiosInterceptorContext } from '@multiversx/sdk-dapp/wrappers/AxiosInterceptorContext';
 import { RouteNamesEnum } from '@/localConstants';
-import { ModalProvider } from '@/wrappers/BatchTransactionsContextProvider/AssesmentProvider';
+import { ModalProvider } from '@/wrappers/ModalProvider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
+import { BatchTransactionsContextProvider } from '@/wrappers/ModalProvider/BatchTransactionsContextProvider';
 
 const AppContent = ({ children }: PropsWithChildren) => {
   return (
