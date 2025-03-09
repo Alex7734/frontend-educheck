@@ -5,6 +5,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import { signInSchema, SignInData, TTokens } from '@/schemas/auth';
 import { Loader } from '../sdkDappComponents';
+import { AxiosError } from 'axios';
+import { ApiStatus } from '@/localConstants/apiStatus';
 
 interface SignInFormProps {
   onSuccess: () => void;
@@ -18,6 +20,7 @@ const SignInForm: React.FC<SignInFormProps> = ({
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isLoading }
   } = useForm<SignInData>({
     resolver: zodResolver(signInSchema)
@@ -28,7 +31,22 @@ const SignInForm: React.FC<SignInFormProps> = ({
       await onSubmitMutation(data);
       onSuccess();
     } catch (error) {
-      console.error(error);
+      const isAxiosErrorWithValidMessage =
+        error instanceof AxiosError &&
+        error?.message &&
+        error?.status !== ApiStatus.UNAUTHORIZED;
+
+      if (isAxiosErrorWithValidMessage) {
+        setError('root', {
+          type: 'server',
+          message: error.message
+        });
+      } else {
+        setError('root', {
+          type: 'server',
+          message: 'Sign in failed. Please try again.'
+        });
+      }
     }
   };
 
@@ -71,6 +89,9 @@ const SignInForm: React.FC<SignInFormProps> = ({
           Sign In
         </button>
       </form>
+      {errors.root && (
+        <p className='text-red-500 mt-2'>{errors.root.message}</p>
+      )}
     </motion.div>
   );
 };

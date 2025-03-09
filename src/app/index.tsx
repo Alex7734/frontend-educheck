@@ -20,6 +20,7 @@ import { AxiosInterceptorContext } from '@multiversx/sdk-dapp/wrappers/AxiosInte
 import { RouteNamesEnum } from '@/localConstants';
 import { ModalProvider } from '@/wrappers/BatchTransactionsContextProvider/AssesmentProvider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from 'react-hot-toast';
 
 const AppContent = ({ children }: PropsWithChildren) => {
   return (
@@ -53,6 +54,7 @@ const AppContent = ({ children }: PropsWithChildren) => {
       <AxiosInterceptorContext.Listener>
         <TransactionsToastList />
         <NotificationModal />
+        <Toaster />
         <SignTransactionsModals />
         {children}
       </AxiosInterceptorContext.Listener>

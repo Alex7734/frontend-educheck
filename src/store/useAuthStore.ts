@@ -13,6 +13,7 @@ interface AuthState {
   getUser: () => TUser | null;
   tokens: TTokens | null;
   setToken: (tokens: TTokens | null) => void;
+  getRefreshToken: () => string | null;
   getTokens: () => TTokens | null;
   isAuthenticated: () => boolean;
 }
@@ -22,6 +23,8 @@ const useAuthStore = create<AuthState>((set, getState) => ({
   setUser: (user) => {
     if (!user) {
       LocalStorage.removeItem('user');
+      set({ user: null });
+      return;
     } else {
       LocalStorage.setItem<TUser>('user', user);
     }
@@ -37,6 +40,8 @@ const useAuthStore = create<AuthState>((set, getState) => ({
 
     if (!tokens) {
       LocalStorage.removeItem('tokens');
+      set({ tokens: null });
+      return;
     } else {
       const newTokens = {
         accessToken: accessToken || getState().tokens?.accessToken || '',
@@ -61,6 +66,15 @@ const useAuthStore = create<AuthState>((set, getState) => ({
     const tokens = LocalStorage.getItem<string>('tokens');
     const user = LocalStorage.getItem<TUser>('user');
     return !!tokens && !!user;
+  },
+  getRefreshToken: () => {
+    const stateTokens = getState().tokens;
+    if (stateTokens) {
+      return stateTokens.refreshToken;
+    }
+
+    const tokens = LocalStorage.getItem<TTokens>('tokens');
+    return tokens?.refreshToken || null;
   }
 }));
 

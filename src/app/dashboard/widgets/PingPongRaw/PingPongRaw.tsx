@@ -12,12 +12,12 @@ import { useGetPendingTransactions, useSendPingPongTransaction } from '@/hooks';
 import { SessionEnum } from '@/localConstants';
 import { SignedTransactionType, WidgetProps, CypressEnums } from '@/types';
 import { useGetTimeToPong, useGetPingAmount } from './hooks';
-import FileDrop from '@/app/dashboard/components/FileDrop';
+import FileDrop from '@/components/FileDrop/FileDrop';
 import { useModal } from '@/wrappers/BatchTransactionsContextProvider/AssesmentProvider';
 
 // Raw transaction are being done by directly requesting to API instead of calling the smartcontract
 export const PingPongRaw = ({ callbackRoute }: WidgetProps) => {
-  const {hideModal, showModal } = useModal();
+  const { hideModal, showModal } = useModal();
   const getTimeToPong = useGetTimeToPong();
   const { hasPendingTransactions } = useGetPendingTransactions();
   const { sendPingTransaction, sendPongTransaction, transactionStatus } =
@@ -44,10 +44,12 @@ export const PingPongRaw = ({ callbackRoute }: WidgetProps) => {
 
   const onSendPingTransaction = async () => {
     const fileUploader = (
-      <FileDrop onFileSubmit={async () => {
-        sendPingTransaction({ amount: pingAmount, callbackRoute });
-        hideModal();
-      }} />
+      <FileDrop
+        onFileSubmit={async () => {
+          sendPingTransaction({ amount: pingAmount, callbackRoute });
+          hideModal();
+        }}
+      />
     );
     showModal(fileUploader, 'Upload CV');
   };

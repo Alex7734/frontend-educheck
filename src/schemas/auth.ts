@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+// Schemas
 export const tokensSchema = z.object({
   accessToken: z.string(),
   refreshToken: z.string()
@@ -25,6 +26,7 @@ export const signOutSchema = z.object({
   refreshToken: z.string()
 });
 
+// Infer types
 export type SignUpData = z.infer<typeof signUpSchema>;
 export type SignInData = z.infer<typeof signInSchema>;
 export type SignOutData = z.infer<typeof signOutSchema>;

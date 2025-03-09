@@ -9,7 +9,7 @@ import { Loader } from '@multiversx/sdk-dapp/UI/Loader/Loader';
 import { FormType, useWeb2Login } from '@/app/unlock/hooks/useWeb2Login';
 import { cn } from '@/helpers/style/cn';
 import SignInForm from '@/components/SignInForm';
-import useWeb2AuthService from '@/queries/auth/useWeb2AuthService';
+import useWeb2AuthService from '@/services/Queries/auth/useWeb2AuthService';
 
 const AuthWeb2: React.FC = () => {
   const { signUpMutation, signInMutation } = useWeb2AuthService();
@@ -19,6 +19,7 @@ const AuthWeb2: React.FC = () => {
   const {
     register: registerSignUp,
     handleSubmit: handleSubmitSignUp,
+    setError: setSignUpError,
     formState: { errors: errorsSignUp, isLoading: isLoadingSignUp }
   } = useForm<SignUpData>({
     resolver: zodResolver(signUpSchema)
@@ -30,6 +31,10 @@ const AuthWeb2: React.FC = () => {
       router.push('/dashboard');
     } catch (error) {
       console.error(error);
+      setSignUpError('root', {
+        type: 'server',
+        message: 'Sign up failed. Please try again.'
+      });
     }
   };
 

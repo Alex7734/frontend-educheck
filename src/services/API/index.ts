@@ -2,7 +2,7 @@ import axios from 'axios';
 import { tokensSchema, type TTokens } from '@/schemas/auth';
 import LocalStorage from '@/services/LocalStorage';
 import useAuthStore from '@/store/useAuthStore';
-import { API_STATUS } from '@/localConstants/API_STATUS';
+import { ApiStatus } from '@/localConstants/apiStatus';
 
 const BASE_URL = '/api';
 
@@ -34,7 +34,7 @@ API.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     if (
-      error.response.status === API_STATUS.UNAUTHORIZED &&
+      error.response.status === ApiStatus.UNAUTHORIZED &&
       !originalRequest._retry
     ) {
       originalRequest._retry = true;

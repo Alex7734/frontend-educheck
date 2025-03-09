@@ -20,7 +20,10 @@ export const routes: RouteWithTitleType[] = [
     path: RouteNamesEnum.disclaimer,
     title: 'Disclaimer',
     component: null
+  },
+  {
+    path: RouteNamesEnum.unlock,
+    title: 'Users Dashboard',
+    component: null
   }
 ];
-
-

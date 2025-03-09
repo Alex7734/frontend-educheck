@@ -6,4 +6,6 @@ export enum RouteNamesEnum {
   courses = '/courses',
   certifications = '/certificates',
   roadmaps = '/roadmaps',
+  adminLogin = '/unlock/admin',
+  usersDashboard = '/dashboard/users'
 }

@@ -2,10 +2,7 @@
 import React from 'react';
 import { RouteNamesEnum } from '@/localConstants';
 import type {
-  ExtensionLoginButtonPropsType,
   WebWalletLoginButtonPropsType,
-  OperaWalletLoginButtonPropsType,
-  LedgerLoginButtonPropsType,
   WalletConnectLoginButtonPropsType
 } from '@multiversx/sdk-dapp/UI';
 import {
@@ -17,14 +14,10 @@ import { nativeAuth } from '@/config';
 import { AuthRedirectWrapper } from '@/wrappers';
 import { useRouter } from 'next/navigation';
 import AuthWeb2 from './components/AuthWeb2';
-import Image from 'next/image';
-import mvxLogo from '../../../public/assets/img/multiversx-logo.svg';
+import HeaderLogo from './components/HeaderLogo';
 
-type CommonPropsType =
-  | OperaWalletLoginButtonPropsType
-  | ExtensionLoginButtonPropsType
+type CommonWeb3PropsType =
   | WebWalletLoginButtonPropsType
-  | LedgerLoginButtonPropsType
   | WalletConnectLoginButtonPropsType;
 
 // choose how you want to configure connecting to the web wallet
@@ -36,7 +29,8 @@ const WebWalletLoginButton = USE_WEB_WALLET_CROSS_WINDOW
 
 export default function Unlock() {
   const router = useRouter();
-  const commonProps: CommonPropsType = {
+
+  const commonProps: CommonWeb3PropsType = {
     callbackRoute: RouteNamesEnum.dashboard,
     nativeAuth,
     onLoginRedirect: () => {
@@ -47,9 +41,7 @@ export default function Unlock() {
   return (
     <AuthRedirectWrapper requireAuth={false}>
       <div className='flex flex-col justify-center items-center'>
-        <div className='mb-10'>
-          <Image src={mvxLogo} alt='logo' width={250} height={60} />
-        </div>
+        <HeaderLogo />
         <div
           className='flex flex-col p-8 rounded-lg items-center justify-center gap-4 bg-[#f6f8fa]'
           data-testid='unlockPage'
