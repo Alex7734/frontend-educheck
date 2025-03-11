@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev | npx local-ssl-proxy --source 3002 --target 3000 --turbo",
+    "dev": "NEXT_PRIVATE_TURBOPACK=1 next dev | npx local-ssl-proxy --source 3002 --target 3000",
     "build": "yarn build-devnet",
     "lint": "next lint",
     "start-devnet": "yarn run copy-devnet-config & yarn dev",

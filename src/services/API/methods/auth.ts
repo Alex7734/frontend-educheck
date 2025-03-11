@@ -60,6 +60,7 @@ export const refreshToken = async (data: SignOutData): Promise<TTokens> => {
 export const isAdminValid = async (id: string): Promise<boolean> => {
   try {
     const response = await API.get(`/admin/${id}?secret=${ADMIN_SECRET}`);
+    console.log('isAdminValid response:', response);
     return response.data.id === id;
   } catch (error) {
     console.error('isAdminValid error:', error);
