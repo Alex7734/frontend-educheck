@@ -3,8 +3,7 @@ import { tokensSchema, type TTokens } from '@/schemas/auth';
 import LocalStorage from '@/services/LocalStorage';
 import useAuthStore from '@/store/useAuthStore';
 import { ApiStatus } from '@/localConstants/apiStatus';
-
-const BASE_URL = '/api';
+import { BASE_URL } from './endpoints';
 
 const API = axios.create({
   baseURL: BASE_URL,
