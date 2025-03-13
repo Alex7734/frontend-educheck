@@ -10,6 +10,8 @@ import { SignInData, SignUpData } from '@/schemas/auth';
 import { TResponseAuth } from '@/types/API/auth';
 import { TUser } from '@/schemas/user';
 import { ONE_MINUTE_MS } from '@/localConstants/duration';
+import { useRouter } from 'next/navigation';
+import { RouteNamesEnum } from '@/localConstants';
 
 interface IUseWeb2AuthService {
   signUpMutation: UseMutationResult<TResponseAuth, Error, SignUpData, unknown>;
@@ -27,7 +29,8 @@ const useWeb2AuthService = (
 ): IUseWeb2AuthService => {
   const queryClient = useQueryClient();
   const isAdminService = options?.isAdminService || false;
-  const { setUser, setToken, getRefreshToken } = useAuthStore();
+  const { setUser, setToken, getRefreshToken, isAdmin } = useAuthStore();
+  const router = useRouter();
 
   const user = useAuthStore((state) => state.user);
 
@@ -56,12 +59,12 @@ const useWeb2AuthService = (
       onSuccess: async (response: TResponseAuth) => {
         handleSuccess(response);
 
-        // Only normal users should be able to sign up
         await queryClient.invalidateQueries({
           queryKey: ['isAdminValid', response.user.id]
         });
 
         queryClient.setQueryData(['isAdminValid', response.user.id], false);
+        router.push(RouteNamesEnum.dashboard);
       },
       onError: (error: Error) => {
         console.error('Sign up failed:', error);
@@ -75,12 +78,10 @@ const useWeb2AuthService = (
         isAdminService ? signInAdmin(data) : signIn(data),
       onSuccess: async (response: TResponseAuth) => {
         handleSuccess(response);
-        // Invalidate isAdminValid query on new sign in
         await queryClient.invalidateQueries({
           queryKey: ['isAdminValid', response.user.id]
         });
 
-        // Set isAdminValid to true on new sign in admin
         if (isAdminService) {
           queryClient.setQueryData(['isAdminValid', response.user.id], true);
         }
@@ -115,7 +116,7 @@ const useWeb2AuthService = (
 
   const isAdminValidQuery = useQuery<boolean, Error>({
     queryKey: ['isAdminValid', user?.id],
-    queryFn: () => isAdminValid(user!.id),
+    queryFn: () => isAdminValid(user!.id) || isAdmin(),
     enabled: !!user?.id,
     initialData: false,
     refetchInterval: ONE_MINUTE_MS,

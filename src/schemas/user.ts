@@ -3,9 +3,26 @@ import { z } from 'zod';
 // Schemas
 export const userSchema = z.object({
   id: z.string().uuid(),
-  name: z.string(),
-  email: z.string().email(),
-  age: z.number().int(),
+  name: z
+    .string()
+    .min(2, { message: 'Name must be at least 2 characters long' })
+    .max(50, { message: 'Name must be at most 50 characters long' })
+    .regex(/^[a-zA-Z\s]*$/, {
+      message: 'Name can only contain letters and spaces'
+    }),
+  email: z
+    .string()
+    .email({ message: 'Please provide a valid email address' })
+    .max(100, { message: 'Email must be at most 100 characters long' }),
+  age: z
+    .union([
+      z.number().int().min(13, 'You must be at least 13 years old'),
+      z.null()
+    ])
+    .refine((value) => value === null || !isNaN(value), {
+      message: 'Age must be a valid number or null'
+    })
+    .transform((value) => (value === null || isNaN(value) ? null : value)),
   hasWeb3Access: z.boolean().optional()
 });
 

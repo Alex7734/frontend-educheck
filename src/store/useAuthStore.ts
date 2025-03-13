@@ -16,6 +16,7 @@ interface AuthState {
   getRefreshToken: () => string | null;
   getTokens: () => TTokens | null;
   isAuthenticated: () => boolean;
+  isAdmin: () => boolean;
 }
 
 const useAuthStore = create<AuthState>((set, getState) => ({
@@ -75,6 +76,10 @@ const useAuthStore = create<AuthState>((set, getState) => ({
 
     const tokens = LocalStorage.getItem<TTokens>('tokens');
     return tokens?.refreshToken || null;
+  },
+  isAdmin: () => {
+    const user = getState().getUser();
+    return user?.hasWeb3Access || false
   }
 }));
 

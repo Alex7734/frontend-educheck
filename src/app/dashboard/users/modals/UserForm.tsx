@@ -72,11 +72,13 @@ const UserForm: React.FC<UserFormProps> = ({
           className='border  p-2'
         />
         {errors.name && <p className='text-red-500'>{errors.name.message}</p>}
-        <input
-          {...register('email')}
-          placeholder='Email'
-          className='border p-2'
-        />
+        {!initialValues && (
+          <input
+            {...register('email')}
+            placeholder='Email'
+            className='border p-2'
+          />
+        )}
         {(errors as FieldErrors<TCreateUser>).email && (
           <p className='text-red-500'>
             {(errors as FieldErrors<TCreateUser>).email?.message}

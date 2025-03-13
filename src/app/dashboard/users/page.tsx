@@ -93,59 +93,66 @@ export default function UsersDashboard() {
         <FontAwesomeIcon icon={faEdit} className='text-white' />
         <span>Create User</span>
       </button>
-      <table className='min-w-full border-collapse border border-black bg-green-50'>
-        <thead>
-          <tr>
-            <th className='border border-black px-4 py-2'>Name</th>
-            <th className='border border-black px-4 py-2'>Email</th>
-            <th className='border border-black px-4 py-2'>Age</th>
-            <th className='border border-black px-4 py-2'>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {getUsersQuery.data?.map((user: TUser) => (
-            <tr key={user.id} className='hover:bg-green-100'>
-              <td
-                className='border border-black px-4 py-2 gap-2 cursor-pointer'
-                onClick={() => openViewUserModal(user.id)}
-              >
-                <div className='flex items-center gap-2 group'>
-                  <FontAwesomeIcon
-                    icon={faEye}
-                    size='sm'
-                    className='group-hover:text-green-500'
-                  />
-                  {truncate(user.name)}
-                </div>
-              </td>
-              <td className='border border-black px-4 py-2'>
-                {truncate(user.email)}
-              </td>
-              <td className='border border-black px-4 py-2'>{user.age}</td>
-              <td className='border border-black px-4 py-2'>
-                <div className='flex items-center justify-around'>
-                  <button
-                    onClick={() => openEditUserModal(user.id)}
-                    className='hover:text-yellow-500'
-                    title='Edit'
-                  >
-                    <FontAwesomeIcon icon={faEdit} size='lg' />
-                  </button>
-                  <button
-                    onClick={async () => {
-                      await deleteUserMutation.mutateAsync(user.id);
-                    }}
-                    className='hover:text-red-500'
-                    title='Delete'
-                  >
-                    <FontAwesomeIcon icon={faTrashAlt} size='lg' />
-                  </button>
-                </div>
-              </td>
+      {getUsersQuery.data?.length ? (
+        <table className='min-w-full border-collapse border border-black bg-green-50'>
+          <thead>
+            <tr>
+              <th className='border border-black px-4 py-2'>Name</th>
+              <th className='border border-black px-4 py-2'>Email</th>
+              <th className='border border-black px-4 py-2'>Age</th>
+              <th className='border border-black px-4 py-2'>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {getUsersQuery.data?.map((user: TUser) => (
+              <tr key={user.id} className='hover:bg-green-100'>
+                <td
+                  className='border border-black px-4 py-2 gap-2 cursor-pointer'
+                  onClick={() => openViewUserModal(user.id)}
+                >
+                  <div className='flex items-center gap-2 group'>
+                    <FontAwesomeIcon
+                      icon={faEye}
+                      size='sm'
+                      className='group-hover:text-green-500'
+                    />
+                    {truncate(user.name)}
+                  </div>
+                </td>
+                <td className='border border-black px-4 py-2'>
+                  {truncate(user.email)}
+                </td>
+                <td className='border border-black px-4 py-2'>{user.age}</td>
+                <td className='border border-black px-4 py-2'>
+                  <div className='flex items-center justify-around'>
+                    <button
+                      onClick={() => openEditUserModal(user.id)}
+                      className='hover:text-yellow-500'
+                      title='Edit'
+                    >
+                      <FontAwesomeIcon icon={faEdit} size='lg' />
+                    </button>
+                    <button
+                      onClick={async () => {
+                        await deleteUserMutation.mutateAsync(user.id);
+                      }}
+                      className='hover:text-red-500'
+                      title='Delete'
+                    >
+                      <FontAwesomeIcon icon={faTrashAlt} size='lg' />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <div className='flex flex-col justify-center items-center h-[50vh] text-gray-500'>
+          <p>No users found.</p>
+          <p>Click "Create User" to add a new user.</p>
+        </div>
+      )}
     </div>
   );
 }

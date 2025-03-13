@@ -1,11 +1,10 @@
 import API from '..';
-import { z } from 'zod';
-import { TUser, TCreateUser, TUpdateUser, userSchema } from '@/schemas/user';
+import { TUser, TCreateUser, TUpdateUser } from '@/schemas/user';
 
 export const createUser = async (userData: TCreateUser): Promise<TUser> => {
   try {
     const response = await API.post('/user', userData);
-    return userSchema.parse(response.data);
+    return response.data;
   } catch (error) {
     console.error('createUser error:', error);
     throw error;
@@ -16,7 +15,7 @@ export const getUsers = async (type?: 'users' | 'admins'): Promise<TUser[]> => {
   try {
     const url = type ? `/user?type=${type}` : '/user/users';
     const response = await API.get(url);
-    return z.array(userSchema).parse(response.data);
+    return response.data;
   } catch (error) {
     console.error('getUsers error:', error);
     throw error;
@@ -26,7 +25,7 @@ export const getUsers = async (type?: 'users' | 'admins'): Promise<TUser[]> => {
 export const getUserById = async (id: string): Promise<TUser> => {
   try {
     const response = await API.get(`/user/${id}`);
-    return userSchema.parse(response.data);
+    return response.data;
   } catch (error) {
     console.error('getUserById error:', error);
     throw error;
@@ -39,7 +38,7 @@ export const updateUser = async (
 ): Promise<TUser> => {
   try {
     const response = await API.patch(`/user/${id}`, userData);
-    return userSchema.parse(response.data);
+    return response.data;
   } catch (error) {
     console.error('updateUser error:', error);
     throw error;
