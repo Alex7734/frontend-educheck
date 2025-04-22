@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Add the group-hover plugin */
+@layer utilities {
+  .group:hover .group-hover\:block {
+    display: block;
+    text-decoration: underline;
+  }
+}
+
+.mx-transactions>td {
+  @apply p-2;
+}
+
+.mx-transactions td>span,
+.mx-transactions td>div {
+  @apply flex w-max;
+}
+
+.mx-transactions td>div>a {
+  @apply text-blue-600;
+}
+
+@layer base {
+  input {
+    @apply block w-full px-3 py-2 border border-gray-300 rounded shadow-sm placeholder-gray-400 text-gray-900 bg-white;
+    @apply focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500;
+  }
+}
